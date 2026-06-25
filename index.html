@@ -29,8 +29,8 @@
 .rocket-path{z-index:3;filter:drop-shadow(0 0 10px rgba(255,255,255,.75)) drop-shadow(0 0 23px rgba(0,226,255,.8)) drop-shadow(0 0 42px rgba(0,90,255,.45));animation:rocketFloat 7s ease-in-out infinite}
 @keyframes rocketFloat{0%,100%{transform:translateY(7px)}50%{transform:translateY(-16px)}}
 @keyframes plumePulse{0%{opacity:.48;filter:blur(10px) brightness(1.45) drop-shadow(0 0 18px rgba(0,238,255,.7))}100%{opacity:.88;filter:blur(17px) brightness(2.15) drop-shadow(0 0 38px rgba(0,238,255,1))}}
-.metric-card{position:absolute;z-index:6;width:430px;height:218px;padding:24px 24px 24px 156px;border:1px solid rgba(89,190,255,.58);border-radius:30px;background:linear-gradient(135deg,rgba(3,31,57,.84),rgba(0,9,23,.78));box-shadow:inset 0 0 20px rgba(5,91,168,.14),0 0 5px rgba(64,174,255,.34),0 15px 36px rgba(0,0,0,.46);backdrop-filter:blur(8px);display:flex;flex-direction:column;justify-content:center;animation:cardFloat 10s ease-in-out infinite;will-change:transform}
-@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.metric-card{position:absolute;z-index:6;width:430px;height:218px;padding:24px 24px 24px 156px;border:1px solid rgba(89,190,255,.58);border-radius:30px;background:linear-gradient(135deg,rgba(3,31,57,.84),rgba(0,9,23,.78));box-shadow:inset 0 0 20px rgba(5,91,168,.14),0 0 5px rgba(64,174,255,.34),0 15px 36px rgba(0,0,0,.46);backdrop-filter:blur(8px);display:flex;flex-direction:column;justify-content:center;animation:cardFloat 8.5s ease-in-out infinite;will-change:transform}
+@keyframes cardFloat{0%,100%{transform:translateY(3px)}50%{transform:translateY(-5px)}}
 .metric-card:before{content:"";position:absolute;inset:1px;border-radius:28px;background:radial-gradient(circle at 30% 5%,rgba(54,158,255,.15),transparent 42%);pointer-events:none}
 .metric-card .icon{position:absolute;left:18px;top:39px;width:128px;height:142px;object-fit:contain;filter:saturate(1.25) contrast(1.1) drop-shadow(0 0 12px rgba(0,129,255,.5))}
 .metric-card .metric-row{position:relative;display:flex;align-items:baseline;white-space:nowrap;z-index:2}
