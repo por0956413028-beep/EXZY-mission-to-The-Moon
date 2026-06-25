@@ -1,0 +1,30 @@
+# OS/editor noise
+Thumbs.db
+.DS_Store
+.vscode/
+
+# Local runtime/cache files
+node_modules/
+.cache/
+*.log
+.env
+.env.local
+figma-cache/
+.agents/
+.codex/
+.chrome-test/
+
+# Local previews and copied live-data responses
+dashboard-*.png
+sheet-response.txt
+
+# Source/intermediate artwork not required by the deployed page
+assets/art/*-source.png
+assets/art/*-backup.png
+assets/art/contact-sheet.jpg
+assets/art/astronauts*.png
+assets/art/bangkok-map*.png
+assets/art/rocket-trajectory.png
+assets/art/bangkok-neon.png
+
+# Keep dashboard source, docs, and assets tracked.

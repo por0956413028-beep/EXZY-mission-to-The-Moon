@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>EXZY — Mission to the Moon</title>
+<style>
+@font-face{font-family:Montserrat;src:url("assets/fonts/Montserrat-Variable.ttf") format("truetype");font-style:normal;font-weight:100 900;font-display:swap}
+@font-face{font-family:Montserrat;src:url("assets/fonts/Montserrat-Italic-Variable.ttf") format("truetype");font-style:italic;font-weight:100 900;font-display:swap}
+@font-face{font-family:"Noto Sans Thai";src:url("assets/fonts/NotoSansThai-Variable.ttf") format("truetype");font-style:normal;font-weight:100 900;font-display:swap}
+:root{--cyan:#00fff0;--blue:#005ab6;--deep:#001326;--gradient:linear-gradient(90deg,#00fff0 0%,#005ab6 100%)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000916}body{font-family:"Noto Sans Thai",sans-serif;color:#fff}
+#stage{position:absolute;width:1080px;height:1920px;transform-origin:top left;overflow:hidden;background:#000916 url("assets/art/space-earth-background.png") center/cover no-repeat}
+#stage:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(0,7,17,.08),transparent 68%,rgba(0,7,17,.15));z-index:1}
+.poster{position:relative;z-index:2;width:100%;height:100%}
+.header{position:absolute;left:58px;right:50px;top:45px;height:86px;display:flex;align-items:center;justify-content:space-between;z-index:8}
+.brand{display:flex;align-items:center;gap:28px}
+.logo{width:236px;height:auto;display:block;filter:drop-shadow(0 0 12px rgba(70,175,255,.16))}
+.mission{position:relative;font-family:Montserrat,sans-serif;font-size:25px;line-height:1;letter-spacing:.045em;color:#fff;white-space:nowrap;padding-left:28px;text-shadow:0 2px 12px #000}
+.mission:before{content:"";position:absolute;left:0;top:50%;width:3px;height:32px;transform:translateY(-50%);border-radius:3px;background:rgba(255,255,255,.68)}
+.status{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(75,182,255,.45);border-radius:999px;background:rgba(0,16,34,.64);font:700 10px Montserrat,sans-serif;letter-spacing:.08em;color:#a9dcff;box-shadow:0 0 18px rgba(0,128,255,.16)}
+.status i{width:8px;height:8px;border-radius:50%;background:#8293a8}.status.live i{background:#31f0b2;box-shadow:0 0 10px #31f0b2}.status.error i{background:#ff6378}
+.headline{position:absolute;left:62px;top:185px;width:660px;z-index:20;isolation:isolate}
+.headline h1{margin:0;font-size:57px;line-height:1.26;letter-spacing:-.035em;font-weight:800;text-shadow:0 5px 22px rgba(0,0,0,.82)}
+.gradient-text,.big-number{background:var(--gradient);-webkit-background-clip:text;background-clip:text;color:transparent}
+.headline .gradient-text{background:linear-gradient(90deg,#00fff0 0%,#005ab6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:none;text-shadow:none;opacity:1}
+.rocket-glow,.rocket-path{position:absolute;left:393px;top:198px;width:405px;height:auto}
+.rocket-glow{z-index:2;opacity:.72;filter:blur(13px) brightness(1.8) drop-shadow(0 0 26px rgba(0,238,255,.95));animation:rocketFloat 7s ease-in-out infinite,plumePulse 2.7s ease-in-out infinite alternate}
+.rocket-path{z-index:3;filter:drop-shadow(0 0 10px rgba(255,255,255,.75)) drop-shadow(0 0 23px rgba(0,226,255,.8)) drop-shadow(0 0 42px rgba(0,90,255,.45));animation:rocketFloat 7s ease-in-out infinite}
+@keyframes rocketFloat{0%,100%{transform:translateY(7px)}50%{transform:translateY(-16px)}}
+@keyframes plumePulse{0%{opacity:.48;filter:blur(10px) brightness(1.45) drop-shadow(0 0 18px rgba(0,238,255,.7))}100%{opacity:.88;filter:blur(17px) brightness(2.15) drop-shadow(0 0 38px rgba(0,238,255,1))}}
+.metric-card{position:absolute;z-index:6;width:430px;height:218px;padding:24px 24px 24px 156px;border:1px solid rgba(89,190,255,.58);border-radius:30px;background:linear-gradient(135deg,rgba(3,31,57,.84),rgba(0,9,23,.78));box-shadow:inset 0 0 20px rgba(5,91,168,.14),0 0 5px rgba(64,174,255,.34),0 15px 36px rgba(0,0,0,.46);backdrop-filter:blur(8px);display:flex;flex-direction:column;justify-content:center;animation:cardFloat 10s ease-in-out infinite;will-change:transform}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.metric-card:before{content:"";position:absolute;inset:1px;border-radius:28px;background:radial-gradient(circle at 30% 5%,rgba(54,158,255,.15),transparent 42%);pointer-events:none}
+.metric-card .icon{position:absolute;left:18px;top:39px;width:128px;height:142px;object-fit:contain;filter:saturate(1.25) contrast(1.1) drop-shadow(0 0 12px rgba(0,129,255,.5))}
+.metric-card .metric-row{position:relative;display:flex;align-items:baseline;white-space:nowrap;z-index:2}
+.big-number{font:800 56px/1 Montserrat,sans-serif;letter-spacing:-.055em;white-space:nowrap}
+.unit{font-size:20px;font-weight:800;color:#39a6ff;margin-left:8px}
+.metric-card h2{position:relative;font-size:27px;line-height:1.15;margin:10px 0 5px;z-index:2}.metric-card h3{position:relative;font-size:21px;line-height:1.28;margin:9px 0 5px;z-index:2}
+.metric-card p{position:relative;font-size:15px;line-height:1.5;color:#e1edf8;margin:0;z-index:2}
+.card-installations{left:55px;top:500px}.card-organizations{right:55px;top:685px}
+.card-meeting{left:55px;top:885px}.card-users{right:55px;top:1080px}.card-codesk{left:55px;top:1245px}
+.card-installations{animation-delay:-.8s}.card-organizations{animation-delay:-3.1s}.card-meeting{animation-delay:-5.2s}.card-users{animation-delay:-1.9s}.card-codesk{animation-delay:-4.3s}
+.card-meeting,.card-codesk{padding-left:152px}.card-users{padding-left:156px}
+.map-scene{position:absolute;z-index:2;left:190px;top:1550px;width:700px;height:340px}
+.map-scene:before{content:"";position:absolute;z-index:3;left:42%;top:8%;width:18px;height:18px;border-radius:50%;transform:translate(-50%,-50%);background:#fff;box-shadow:0 0 10px #fff,0 0 28px #00fff0,0 0 58px #008cff,0 0 95px rgba(0,90,182,.9);animation:launchPulse 1.8s ease-in-out infinite alternate}
+@keyframes launchPulse{from{opacity:.72;transform:translate(-50%,-50%) scale(.78)}to{opacity:1;transform:translate(-50%,-50%) scale(1.2)}}
+.map-art{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 17px rgba(0,140,255,.75)) drop-shadow(0 24px 24px rgba(0,0,0,.55))}
+.pins{position:absolute;left:7%;right:7%;top:7%;bottom:14%;pointer-events:none}
+.pin{position:absolute;width:11px;height:11px;border-radius:50%;transform:translate(-50%,-50%);background:#fff;border:1px solid #a5ffff;box-shadow:0 0 6px #fff,0 0 14px #00e5ff,0 0 28px #0878ff;animation:pinIn .55s both,pinGlow 2.2s ease-in-out infinite alternate}
+@keyframes pinIn{from{opacity:0;transform:translate(-50%,-50%) scale(.2)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes pinGlow{from{box-shadow:0 0 5px #fff,0 0 11px #00e5ff,0 0 20px #0878ff}to{box-shadow:0 0 8px #fff,0 0 19px #00e5ff,0 0 36px #0878ff}}
+.map-badge{display:none}
+.footer{position:absolute;z-index:8;left:0;right:0;bottom:15px;text-align:center;color:#d8ebff;font-size:16px;font-weight:600;letter-spacing:.02em;text-shadow:0 2px 10px #000}
+.shooting-stars{position:absolute;z-index:2;inset:0;overflow:hidden;pointer-events:none}
+.shooting-star{position:absolute;width:150px;height:2px;opacity:0;background:linear-gradient(90deg,transparent,rgba(98,216,255,.16) 28%,rgba(225,250,255,.95));border-radius:999px;filter:drop-shadow(0 0 5px rgba(58,190,255,.7));transform:rotate(34deg);transform-origin:right center;animation:shootingStar var(--duration,1.8s) ease-in forwards}
+.shooting-star:after{content:"";position:absolute;right:-2px;top:-2px;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px #8fe8ff}
+@keyframes shootingStar{0%{opacity:0;translate:0 0}12%{opacity:.85}78%{opacity:.72}100%{opacity:0;translate:300px 235px}}
+@media (prefers-reduced-motion:reduce){.rocket-glow,.rocket-path,.metric-card,.pin,.map-scene:before{animation:none!important}}
+</style>
+</head>
+<body>
+<main id="stage">
+  <div class="poster">
+    <div class="shooting-stars" id="shootingStars" aria-hidden="true"></div>
+    <header class="header">
+      <div class="brand"><img class="logo" src="assets/exzy-logo-white.png" alt="EXZY"><span class="mission">Mission to The Moon</span></div>
+      <div class="status" id="status"><i></i><span>CONNECTING</span></div>
+    </header>
+
+    <section class="headline">
+      <h1>การเดินทางของเรา<br>เพื่อสร้าง Workplace<br><span class="gradient-text">ที่ดีกว่าให้คนทั้งประเทศ</span></h1>
+    </section>
+
+    <img class="rocket-glow" src="assets/art/rocket-trajectory-cropped.png" alt="">
+    <img class="rocket-path" src="assets/art/rocket-trajectory-cropped.png" alt="จรวด EXZY เดินทางสู่ดวงจันทร์">
+
+    <article class="metric-card card-installations">
+        <img class="icon" src="assets/art/building.png" alt="">
+        <div class="metric-row"><span class="big-number" id="installations">8000+</span><span class="unit">จุดติดตั้ง</span></div>
+        <p>ที่ผลงานของเรา<br>เข้าไปอยู่ในวันทำงานจริงของผู้คน</p>
+    </article>
+
+    <article class="metric-card card-organizations">
+        <img class="icon" src="assets/art/handshake.png" alt="">
+        <div class="metric-row"><span class="big-number" id="organizations">350+</span><span class="unit">องค์กร</span></div>
+        <p>ที่ไว้วางใจให้ผลงานของเรา<br>เป็นส่วนหนึ่งของการทำงานในทุกวัน</p>
+    </article>
+
+    <article class="metric-card card-meeting">
+        <img class="icon" src="assets/art/globe.png" alt="">
+        <div class="metric-row"><span class="big-number" id="meetingHours">500,000</span><span class="unit">ชั่วโมง</span></div>
+        <h3>ที่จองห้องประชุมผ่าน<br>Meet in Touch</h3>
+        <p>เทียบเท่าการเดินทางรอบโลก 4,166 รอบ</p>
+    </article>
+
+    <article class="metric-card card-users">
+        <img class="icon" src="assets/art/users.png" alt="">
+        <div class="metric-row"><span class="big-number" id="smartUsers">200,000</span><span class="unit">ผู้ใช้</span></div>
+        <h3>ระบบ EXZY Smart Office</h3>
+        <p>ที่กำลังก้าวไปข้างหน้าพร้อมกับเรา</p>
+    </article>
+
+    <article class="metric-card card-codesk">
+        <img class="icon" src="assets/art/saturn.png" alt="">
+        <div class="metric-row"><span class="big-number" id="codeskHours">400,000</span><span class="unit">ชั่วโมง</span></div>
+        <h3>ของการจอง Codesk</h3>
+        <p>เท่ากับเวลาที่จรวดเดินทางไปสู่ดาวเสาร์</p>
+    </article>
+
+    <section class="map-scene">
+      <img class="map-art" src="assets/art/bangkok-neon-cropped.png" alt="แผนที่กรุงเทพมหานครเรืองแสง">
+      <div class="pins" id="pins"></div>
+      <div class="map-badge" id="mapBadge">WAITING FOR LOCATION DATA</div>
+    </section>
+
+    <footer class="footer">นี่คือเส้นทางของสิ่งที่เราร่วมกันสร้าง</footer>
+  </div>
+</main>
+<script src="thai-holidays.js"></script>
+<script src="config.js"></script>
+<script>
+const FALLBACK={installations:"8000+",organizations:"350+",meetingHours:"500,000",smartUsers:"200,000",codeskHours:"400,000"};
+const DEFAULTS={
+  sheetId:"10M8whoOIjCbrbq-YcTHt4tSi_77nYQWe2TF9mDllcVs",gid:"0",refreshMinutes:5,googleMapsApiKey:"",
+  bangkokBounds:{north:14.08,south:13.45,west:100.30,east:100.95},
+  columns:{
+    building:["Building","Building Name","Site","Location","อาคาร","สถานที่"],
+    organization:["Costumer","Customer","Organization","Organisation","Company","Client","องค์กร","บริษัท","ลูกค้า"],
+    meetinTouch:["MeetinTouch","Meet in Touch","MeetingTouch"],
+    codesk:["Codesk","CoDesk"],
+    onePass:["OnePass","One Pass"],
+    userCount:["Usercount","User Count","Users","ผู้ใช้"],
+    projectYear:["project year","Project Year","Year","ปีโครงการ"]
+  }
+};
+const cfg=merge(DEFAULTS,window.EXZY_CONFIG||{}),$=id=>document.getElementById(id);
+const stage=$("stage"),status=$("status"),pins=$("pins"),mapBadge=$("mapBadge"),shootingStars=$("shootingStars"),installations=$("installations"),organizations=$("organizations"),meetingHours=$("meetingHours"),smartUsers=$("smartUsers"),codeskHours=$("codeskHours");
+let lastRows=[],geocoder=null,mapsPromise=null;
+function merge(a,b){const out={...a,...b};out.columns={...a.columns,...b.columns};out.bangkokBounds={...a.bangkokBounds,...b.bangkokBounds};return out}
+function fit(){const s=Math.min(innerWidth/1080,innerHeight/1920);const x=(innerWidth-1080*s)/2,y=(innerHeight-1920*s)/2;stage.style.transform=`translate(${x}px,${y}px) scale(${s})`}
+addEventListener("resize",fit);fit();
+const clean=v=>String(v??"").trim(),headerKey=v=>clean(v).toLowerCase().replace(/[\s_.()/\\-]+/g,""),uniq=a=>[...new Set(a.map(clean).filter(Boolean))];
+function col(headers,names){const wanted=names.map(headerKey);return headers.findIndex(h=>wanted.includes(headerKey(h)))}
+function numberValue(v){const raw=clean(v);if(!raw)return null;const n=Number(raw.replace(/[^\d.-]/g,""));return Number.isFinite(n)?n:null}
+function fmt(v){return new Intl.NumberFormat("en-US",{maximumFractionDigits:0}).format(v)}
+function setStatus(mode,text){status.className="status "+mode;status.querySelector("span").textContent=text}
+function fitMetrics(){
+  document.querySelectorAll(".metric-row").forEach(row=>{
+    const number=row.querySelector(".big-number"),unit=row.querySelector(".unit");
+    if(!number)return;
+    number.style.fontSize="56px";
+    let size=56;
+    while(row.scrollWidth>row.clientWidth&&size>31){size-=1;number.style.fontSize=size+"px"}
+    if(unit&&size<40)unit.style.fontSize="16px";else if(unit)unit.style.fontSize="20px";
+  });
+}
+function loadTable(){return new Promise((resolve,reject)=>{const cb="__exzy_"+Date.now(),script=document.createElement("script"),timer=setTimeout(()=>done(new Error("timeout")),12000);function done(v){clearTimeout(timer);delete window[cb];script.remove();v instanceof Error?reject(v):resolve(v)}window[cb]=r=>{if(r?.status==="error"||!r?.table)return done(new Error("private"));const h=r.table.cols.map((c,i)=>clean(c.label||c.id||`Column ${i+1}`)),rows=r.table.rows.map(row=>r.table.cols.map((_,i)=>row.c?.[i]?.f??row.c?.[i]?.v??""));done({headers:h,rows:rows.filter(r=>r.some(clean))})};script.onerror=()=>done(new Error("network"));script.src=`https://docs.google.com/spreadsheets/d/${encodeURIComponent(cfg.sheetId)}/gviz/tq?gid=${encodeURIComponent(cfg.gid)}&headers=1&tqx=responseHandler:${cb}`;document.head.appendChild(script)})}
+const thaiHolidaySet=new Set([...(window.EXZY_THAI_HOLIDAYS||[]),...(cfg.additionalThaiHolidays||[])]);
+function dateKey(date){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,"0")}-${String(date.getDate()).padStart(2,"0")}`}
+function activeDays(projectYear,today=new Date()){
+  const rawYear=numberValue(projectYear);if(rawYear===null)return 0;
+  const year=Math.trunc(rawYear),start=new Date(year,0,1),end=new Date(today.getFullYear(),today.getMonth(),today.getDate());
+  if(start>end)return 0;
+  let workingDays=0;
+  for(let date=new Date(start);date<=end;date.setDate(date.getDate()+1)){
+    const weekday=date.getDay();
+    if(weekday!==0&&weekday!==6&&!thaiHolidaySet.has(dateKey(date)))workingDays++;
+  }
+  return workingDays;
+}
+function isSummaryRow(row,organizationIndex,buildingIndex){
+  const values=[organizationIndex>=0?row[organizationIndex]:"",buildingIndex>=0?row[buildingIndex]:""].map(v=>clean(v).toLowerCase());
+  return values.some(v=>/^รวม(?:\s|$)|^total(?:\s|$)|^grand\s*total(?:\s|$)/i.test(v));
+}
+function applyData(headers,rows){
+  lastRows=rows;
+  const bi=col(headers,cfg.columns.building),oi=col(headers,cfg.columns.organization),mi=col(headers,cfg.columns.meetinTouch),ci=col(headers,cfg.columns.codesk),pi=col(headers,cfg.columns.onePass),ui=col(headers,cfg.columns.userCount),yi=col(headers,cfg.columns.projectYear);
+  const dataRows=rows.filter(row=>!isSummaryRow(row,oi,bi));
+  const buildings=bi>=0?uniq(dataRows.map(r=>r[bi])):[],orgs=oi>=0?uniq(dataRows.map(r=>r[oi])):[];
+  let installationTotal=0,userTotal=0,meetingTotal=0,codeskTotal=0;
+  for(const row of dataRows){
+    const meet=mi>=0?(numberValue(row[mi])??0):0;
+    const code=ci>=0?(numberValue(row[ci])??0):0;
+    const pass=pi>=0?(numberValue(row[pi])??0):0;
+    const users=ui>=0?(numberValue(row[ui])??0):0;
+    const days=yi>=0?activeDays(row[yi]):0;
+    installationTotal+=meet+code+pass;
+    userTotal+=users;
+    meetingTotal+=meet*8*days;
+    codeskTotal+=code*8*days;
+  }
+  installations.textContent=mi>=0&&ci>=0&&pi>=0?fmt(installationTotal)+"+":FALLBACK.installations;
+  organizations.textContent=oi>=0?fmt(orgs.length)+"+":FALLBACK.organizations;
+  meetingHours.textContent=mi>=0&&yi>=0?fmt(meetingTotal):FALLBACK.meetingHours;
+  smartUsers.textContent=ui>=0?fmt(userTotal):FALLBACK.smartUsers;
+  codeskHours.textContent=ci>=0&&yi>=0?fmt(codeskTotal):FALLBACK.codeskHours;
+  fitMetrics();
+  localStorage.setItem("exzy_last_data",JSON.stringify({headers,rows,time:Date.now()}));
+  if(buildings.length)plotBuildings(buildings);else{pins.innerHTML="";mapBadge.textContent="NO BUILDING COLUMN FOUND"}
+}
+async function refresh(){try{setStatus("","UPDATING");const data=await loadTable();applyData(data.headers,data.rows);setStatus("live","LIVE · "+new Date().toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"}))}catch(e){console.warn(e);setStatus("error","USING LAST DATA");if(!lastRows.length){try{const saved=JSON.parse(localStorage.getItem("exzy_last_data"));if(saved?.rows?.length)applyData(saved.headers,saved.rows)}catch(_){}}}}
+function loadMaps(){if(window.google?.maps)return Promise.resolve();if(mapsPromise)return mapsPromise;if(!cfg.googleMapsApiKey)return Promise.reject(new Error("missing-key"));mapsPromise=new Promise((resolve,reject)=>{window.__exzyMaps=resolve;const s=document.createElement("script");s.src=`https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(cfg.googleMapsApiKey)}&callback=__exzyMaps&v=weekly&language=th&region=TH`;s.async=true;s.onerror=reject;document.head.appendChild(s)});return mapsPromise}
+function nominatimLookup(query){
+  return new Promise(resolve=>{
+    const callback=`__exzyGeo_${Date.now()}_${Math.random().toString(36).slice(2)}`,script=document.createElement("script");
+    const finish=value=>{clearTimeout(timer);delete window[callback];script.remove();resolve(value)};
+    const timer=setTimeout(()=>finish(undefined),10000);
+    window[callback]=result=>{
+      const first=result?.[0],point=first?{lat:Number(first.lat),lng:Number(first.lon),source:"osm"}:null;
+      finish(point&&Number.isFinite(point.lat)&&Number.isFinite(point.lng)?point:null);
+    };
+    script.onerror=()=>finish(undefined);
+    script.src=`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&countrycodes=th&accept-language=en&json_callback=${callback}&q=${encodeURIComponent(query)}`;
+    document.head.appendChild(script);
+  });
+}
+async function geocodeOnline(building){
+  const queries=[`${building}, Bangkok, Thailand`,`${building}, Thailand`,building];
+  for(let i=0;i<queries.length;i++){
+    const point=await nominatimLookup(queries[i]);
+    if(point)return point;
+    if(i<queries.length-1)await wait(1100);
+  }
+  return null;
+}
+async function plotBuildings(buildings){
+  pins.innerHTML="";mapBadge.textContent=`SEARCHING ${buildings.length} BUILDINGS`;
+  let useGoogle=false;
+  if(cfg.googleMapsApiKey){try{await loadMaps();geocoder ||= new google.maps.Geocoder();useGoogle=true}catch(e){}}
+  let placed=0,searched=0;const used=[];
+  for(const building of buildings){
+    let p=getGeo(building);
+    if(p===undefined){
+      if(useGoogle){
+        try{const r=await geocoder.geocode({address:`${building}, Thailand`,region:"TH"});if(r.results[0]){const g=r.results[0].geometry.location;p={lat:g.lat(),lng:g.lng(),source:"google"}}}catch(e){}
+        await wait(170);
+      }else{
+        p=await geocodeOnline(building);
+        await wait(1100);
+      }
+      if(p)setGeo(building,p);else if(p===null)setGeoMissing(building);
+    }
+    searched++;
+    if(p&&inside(p)){const q=project(p);nudge(q,used);used.push(q);addPin(q,building,placed++)}
+    if(searched%5===0)mapBadge.textContent=`FOUND ${placed} · SEARCHING ${searched}/${buildings.length}`;
+  }
+  mapBadge.textContent=`${placed} BUILDINGS · APPROXIMATE LIVE PINS`;
+}
+function inside(p){const b=cfg.bangkokBounds;return p.lat<=b.north&&p.lat>=b.south&&p.lng>=b.west&&p.lng<=b.east}
+function project(p){const b=cfg.bangkokBounds;return{x:(p.lng-b.west)/(b.east-b.west)*100,y:(b.north-p.lat)/(b.north-b.south)*100}}
+function nudge(p,used){let tries=0;while(used.some(q=>Math.hypot(q.x-p.x,q.y-p.y)<3.2)&&tries<8){const a=tries*2.399;p.x+=Math.cos(a)*2.2;p.y+=Math.sin(a)*2.2;tries++}p.x=Math.max(3,Math.min(97,p.x));p.y=Math.max(5,Math.min(96,p.y))}
+function addPin(p,title,i){const el=document.createElement("span");el.className="pin";el.style.cssText=`left:${p.x}%;top:${p.y}%;animation-delay:${Math.min(i*.035,.8)}s`;el.title=title;pins.appendChild(el)}
+function getGeo(v){try{const raw=localStorage.getItem("exzy_geo_"+headerKey(v));if(raw===null)return undefined;const data=JSON.parse(raw);if(data?.missing){if(data.version!==2||Date.now()-(data.checkedAt||0)>21600000)return undefined;return null}return data}catch(e){return undefined}}
+function setGeo(v,p){try{localStorage.setItem("exzy_geo_"+headerKey(v),JSON.stringify(p))}catch(e){}}
+function setGeoMissing(v){try{localStorage.setItem("exzy_geo_"+headerKey(v),JSON.stringify({missing:true,version:2,checkedAt:Date.now()}))}catch(e){}}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function scheduleShootingStar(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const delay=5600+Math.random()*800;
+  setTimeout(()=>{
+    const star=document.createElement("i");
+    star.className="shooting-star";
+    star.style.left=(-140+Math.random()*700)+"px";
+    star.style.top=(90+Math.random()*850)+"px";
+    star.style.setProperty("--duration",(1.6+Math.random()*.55)+"s");
+    shootingStars.appendChild(star);
+    star.addEventListener("animationend",()=>star.remove(),{once:true});
+    scheduleShootingStar();
+  },delay);
+}
+fitMetrics();refresh();setInterval(refresh,Math.max(1,cfg.refreshMinutes)*60000);
+scheduleShootingStar();
+</script>
+</body>
+</html>
