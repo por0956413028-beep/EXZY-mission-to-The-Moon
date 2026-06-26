@@ -16,15 +16,22 @@ figma-cache/
 
 # Local previews and copied live-data responses
 dashboard-*.png
+footer-preview.png
 sheet-response.txt
 
 # Source/intermediate artwork not required by the deployed page
 assets/art/*-source.png
 assets/art/*-backup.png
+assets/art/icon-*-neon.png
 assets/art/contact-sheet.jpg
 assets/art/astronauts*.png
 assets/art/bangkok-map*.png
 assets/art/rocket-trajectory.png
 assets/art/bangkok-neon.png
+assets/art/rocket-white.png
+assets/art/rocket-white-cropped.png
+assets/art/rocket-white-soft.png
+assets/art/tech-panel-keyed-full.png
+assets/fonts/JetBrainsMono-*
 
 # Keep dashboard source, docs, and assets tracked.
